@@ -1,0 +1,788 @@
+/* --- 基本設定 --- */
+:root {
+    /* ラグジュアリーな配色例 (前回のを踏襲しつつ微調整) */
+    --primary-color: #1A202C; /* ダークチャコール */
+    --secondary-color: #F7FAFC; /* ほぼ白 */
+    --accent-color: #C0A062; /* アンティークゴールド */
+    --accent-color-darker: #a88d52; /* アクセント濃 */
+    --text-color: #2D3748; /* やや濃いグレー */
+    --text-color-light: #718096; /* 明るめグレー */
+    --white: #fff;
+    --border-color: #E2E8F0; /* 明るい境界線 */
+    --light-gold-bg: rgba(192, 160, 98, 0.05); /* 薄いゴールド背景 (レビューホバー等) */
+
+    /* フォント設定 */
+    --base-font: 'Noto Sans JP', sans-serif;
+    --title-font: 'Shippori Mincho', serif;
+
+    /* アニメーション用 */
+    --transition-speed: 0.6s; /* 少しゆっくりめに */
+    --transition-timing: cubic-bezier(0.25, 0.8, 0.25, 1); /* 滑らかなイージング */
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--base-font);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    background-color: var(--white);
+    line-height: 1.8;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--title-font);
+    margin-top: 0;
+    font-weight: 600;
+    color: var(--primary-color);
+    line-height: 1.4;
+}
+
+h2.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2em;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 0.6em;
+}
+h2.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background-color: var(--accent-color);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+a:hover {
+    color: var(--accent-color-darker);
+    opacity: 1;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.content-section {
+    padding: 80px 0;
+    overflow-x: hidden;
+}
+
+.bg-light {
+    background-color: var(--secondary-color);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* --- ヘッダー --- */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    z-index: 1000;
+    padding: 15px 0;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo img {
+    height: 45px;
+    width: auto;
+}
+.global-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+.global-nav li {
+    margin-left: 30px;
+}
+.global-nav a {
+    color: var(--primary-color);
+    font-weight: 400;
+    font-size: 0.95rem;
+    padding: 10px 0;
+    position: relative;
+    letter-spacing: 0.05em;
+}
+.global-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--accent-color);
+    transition: width 0.4s ease;
+}
+.global-nav a:hover::after {
+    width: 100%;
+}
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1010;
+    position: relative;
+}
+.nav-toggle span {
+    display: block;
+    width: 28px;
+    height: 2px;
+    background-color: var(--primary-color);
+    margin: 6px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- ヒーローセクション --- */
+#hero {
+    padding-top: 75px; /* ヘッダー高さ */
+    position: relative;
+    color: var(--white);
+    text-align: center;
+}
+.hero-image {
+    /* 背景画像はここに指定 (例: images/hero-background.jpg) */
+    background-image: url('images/hero-background.jpg'); 
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed; /* パララックス風効果 (任意) */
+    min-height: 95vh; /* 高さを十分に */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    padding: 40px; /* パディング増量 */
+    background-color: rgba(0, 0, 0, 0.2); /* テキスト背景を少し濃く */
+    border-radius: 8px;
+}
+.hero-content h1 {
+    font-size: 3.8rem; /* さらに大きく */
+    margin-bottom: 0.6em;
+    font-weight: 700;
+    color: var(--white);
+    text-shadow: 0 3px 12px rgba(0,0,0,0.6); /* 影を調整 */
+    line-height: 1.3;
+}
+.hero-content p {
+    font-size: 1.4rem; /* 説明文も少し大きく */
+    margin-bottom: 2em;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+}
+.direct-booking-incentive {
+    margin-top: 1.5em;
+    font-size: 1rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+.direct-booking-incentive i {
+    margin-right: 8px;
+}
+
+/* --- ボタン類 --- */
+.cta-button {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--white);
+    padding: 16px 45px; /* パディング調整 */
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.cta-button:hover {
+    background-color: var(--accent-color-darker);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    opacity: 1;
+}
+.hero-cta {
+    font-size: 1.1rem;
+}
+.nav-cta {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px 25px;
+    margin-left: 15px;
+    font-size: 0.9rem;
+    box-shadow: none;
+}
+.nav-cta:hover {
+     background-color: #000;
+     transform: none;
+     box-shadow: none;
+}
+.cta-large { /* 予約セクション等で使う大きいボタン */
+    font-size: 1.2rem;
+    padding: 18px 50px;
+}
+.link-button {
+    display: inline-block;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 12px 30px;
+    border-radius: 30px;
+    margin-top: 25px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.link-button:hover {
+    background-color: var(--accent-color);
+    color: var(--white);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+.link-button i { /* ボタン内アイコン */
+    margin-right: 8px;
+}
+
+/* --- USP / 特徴セクション (#usp) --- */
+#usp { /* IDセレクタを追加 */
+    /* 特に追加のスタイルがなければ不要 */
+}
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* カラム幅調整 */
+    gap: 40px;
+    text-align: center;
+    margin-top: 40px;
+}
+.feature-item a {
+    display: block;
+    color: var(--text-color);
+    padding: 25px; /* パディング増量 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px; /* 角丸 */
+}
+.feature-item a:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08); /* ホバー時の影 */
+}
+.feature-icon {
+    font-size: 3.2rem; /* アイコンサイズ */
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    transition: transform 0.4s ease;
+}
+.feature-item a:hover .feature-icon {
+    transform: scale(1.1); /* アイコンホバー効果 */
+}
+.feature-item h3 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+.feature-item p {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+}
+
+/* --- ヴィラ詳細情報 (#villa-details) --- */
+.villa-description {
+    max-width: 800px;
+    margin: 0 auto 50px; /* 中央寄せ、下に余白 */
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.9;
+}
+.villa-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* レスポンシブグリッド */
+    gap: 30px;
+    margin-bottom: 40px;
+}
+.villa-gallery-item {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.villa-gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.villa-gallery-item img {
+    width: 100%;
+    height: 280px; /* 画像高さを統一 */
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.villa-gallery-item:hover img {
+    transform: scale(1.05);
+}
+.villa-gallery-item h3 {
+    font-size: 1.3rem;
+    padding: 15px 20px 5px;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+.villa-gallery-item p {
+    font-size: 0.95rem;
+    padding: 0 20px 20px;
+    margin-bottom: 0;
+    color: var(--text-color-light);
+}
+.immersive-media-link { /* 360度ツアーなどへのリンクエリア */
+    margin-top: 40px;
+}
+.immersive-media-link .link-button {
+    margin: 10px;
+}
+
+/* --- アメニティ・設備 (#amenities) --- */
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* カラム調整 */
+    gap: 20px 30px; /* 縦横のギャップ */
+    max-width: 1000px; /* 最大幅 */
+    margin: 40px auto 30px; /* 中央寄せ */
+}
+.amenity-item {
+    display: flex;
+    align-items: center;
+    font-size: 1.05rem;
+    padding: 10px 0;
+}
+.amenity-item i {
+    color: var(--accent-color);
+    font-size: 1.4rem;
+    margin-right: 15px;
+    width: 25px; /* アイコン幅固定 */
+    text-align: center;
+}
+
+/* --- 周辺エリアガイド (#location) --- */
+.location-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.location-item {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.location-item:hover {
+     transform: translateY(-5px);
+     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.location-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.location-item h3 {
+    font-size: 1.2rem;
+    padding: 15px 20px 5px;
+    margin-bottom: 5px;
+}
+.location-item p {
+    font-size: 0.95rem;
+    padding: 0 20px 20px;
+    color: var(--text-color-light);
+}
+
+/* --- 社会的証明（レビュー） (#reviews) --- */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+.review-item {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease;
+}
+.review-item:hover {
+    background-color: var(--light-gold-bg); /* ホバー背景 */
+}
+.review-rating {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+.review-text {
+    font-style: italic;
+    margin-bottom: 15px;
+    color: var(--text-color);
+    line-height: 1.7;
+}
+.review-author {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color-light);
+}
+.review-more { /* 他のレビューサイトへのリンク */
+    margin-top: 40px;
+}
+.review-more p {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.review-more a {
+    margin: 0 10px;
+    font-weight: 600;
+}
+
+/* --- 料金・空室確認 / 予約 (#booking) --- */
+.booking-engine-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.booking-engine-placeholder { /* 予約エンジン埋め込み前の仮表示 */
+    border: 2px dashed var(--border-color);
+    padding: 40px;
+    text-align: center;
+    color: var(--text-color-light);
+}
+.direct-booking-benefits {
+    margin-top: 50px;
+}
+.direct-booking-benefits h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+.direct-booking-benefits h3 i {
+    color: var(--accent-color);
+    margin-right: 10px;
+}
+.direct-booking-benefits ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 20px;
+    max-width: 500px; /* リスト幅調整 */
+    text-align: left; /* リストは左揃え */
+    display: inline-block; /* 中央寄せのため */
+}
+.direct-booking-benefits li {
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+}
+.direct-booking-benefits li i {
+    color: var(--accent-color);
+    margin-right: 10px;
+    width: 15px; /* アイコン幅 */
+}
+.direct-booking-benefits p {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+.booking-notes {
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+}
+
+/* --- アクセス情報 (#access) --- */
+.access-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start; /* 上揃え */
+    margin-top: 40px;
+}
+.access-map {
+    flex: 1.5; /* 地図の比率 */
+}
+.access-details {
+    flex: 1;
+}
+.access-details h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+.access-details p {
+    margin-bottom: 1em;
+    line-height: 1.7;
+}
+.access-details p i {
+    margin-right: 10px;
+    color: var(--accent-color);
+    width: 15px;
+    text-align: center;
+}
+.access-details h4 {
+    font-size: 1.1rem;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+}
+.map-container {
+    position: relative;
+    padding-bottom: 75%; /* 地図の縦横比調整 (4:3) */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- お問い合わせ (#contact) --- */
+#contact p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5em;
+}
+.contact-methods {
+    margin-top: 30px;
+}
+.contact-methods p {
+    font-size: 1.2rem;
+    margin-bottom: 1em;
+}
+.contact-methods i {
+    margin-right: 10px;
+    color: var(--accent-color);
+}
+.contact-methods a {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+.contact-methods a:hover {
+    color: var(--accent-color-darker);
+}
+
+/* --- フッター --- */
+.footer {
+    background-color: var(--secondary-color);
+    color: var(--text-color-light);
+    padding: 60px 0 30px;
+    font-size: 0.9rem;
+}
+.footer a {
+    color: var(--text-color);
+}
+.footer a:hover {
+    color: var(--accent-color);
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+.footer-logo {
+    flex-basis: 300px;
+}
+.footer-logo img {
+    height: 40px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+.footer-logo p {
+    line-height: 1.7;
+}
+.footer-nav {
+    display: flex;
+    gap: 60px;
+    flex-grow: 1;
+}
+.footer-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-nav li {
+    margin-bottom: 10px;
+}
+.footer-nav a {
+    font-size: 0.95rem;
+}
+.footer-social {
+    text-align: right;
+}
+.footer-social a {
+    font-size: 1.6rem;
+    margin-left: 18px;
+    color: var(--text-color-light);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.footer-social a:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+.copyright {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+}
+
+/* --- アニメーション --- */
+.animate-on-scroll {
+    opacity: 0;
+    transition: opacity var(--transition-speed) var(--transition-timing),
+                transform var(--transition-speed) var(--transition-timing);
+}
+.fade-in { opacity: 0; }
+.fade-in.is-visible { opacity: 1; }
+
+.fade-in-up { opacity: 0; transform: translateY(50px); } /* 少し移動距離を増やす */
+.fade-in-up.is-visible { opacity: 1; transform: translateY(0); }
+
+.fade-in-left { opacity: 0; transform: translateX(-50px); }
+.fade-in-left.is-visible { opacity: 1; transform: translateX(0); }
+
+.fade-in-right { opacity: 0; transform: translateX(50px); }
+.fade-in-right.is-visible { opacity: 1; transform: translateX(0); }
+
+
+/* --- レスポンシブ対応 --- */
+/* タブレットサイズ */
+@media (max-width: 992px) {
+    .villa-gallery, .location-grid, .reviews-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* カラム調整 */
+    }
+    .access-container {
+        flex-direction: column; /* アクセス情報も縦並び */
+        gap: 30px;
+    }
+    .access-map {
+        width: 100%; /* 地図幅100% */
+    }
+    .footer-nav {
+        gap: 40px;
+    }
+}
+
+/* スマートフォンサイズ */
+@media (max-width: 768px) {
+    h1 { font-size: 2.2rem; } /* スマホでの見出しサイズ調整 */
+    h2.section-title { font-size: 1.8rem; }
+    .container { padding: 0 20px; }
+    .content-section { padding: 60px 0; }
+
+    /* ヘッダー */
+    .nav-toggle { display: block; }
+    .global-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 85%; /* 幅調整 */
+        max-width: 350px;
+        height: 100vh;
+        background-color: var(--white);
+        box-shadow: -3px 0 10px rgba(0,0,0,0.1);
+        padding-top: 80px; /* ヘッダー高さ考慮 */
+        transition: right 0.4s ease-in-out;
+        z-index: 1005;
+        overflow-y: auto;
+    }
+    .global-nav.active { right: 0; }
+    .global-nav ul { flex-direction: column; align-items: flex-start; padding: 25px 35px; }
+    .global-nav li { margin: 0 0 22px 0; width: 100%; }
+    .global-nav a { font-size: 1.1rem; display: block; padding: 10px 0; }
+    .global-nav a::after { display: none; }
+    .nav-cta { width: calc(100% - 70px); margin: 30px auto 0; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* ヒーロー */
+    .hero-content h1 { font-size: 2.5rem; }
+    .hero-content p { font-size: 1.1rem; }
+
+    /* コンセプト、食事、スパ (縦並び) */
+    .concept-container, .dining-container, .spa-container { flex-direction: column; gap: 30px; }
+    .concept-image, .dining-image, .spa-image { max-width: 100%; order: -1; }
+    .dining-container .dining-image { order: 1; }
+    .spa-container .spa-image { order: -1; }
+    .concept-text h2.section-title, .dining-text h2.section-title, .spa-text h2.section-title { text-align: center; margin-top: 30px; }
+    .concept-text h2.section-title::after, .dining-text h2.section-title::after, .spa-text h2.section-title::after { left: 50%; transform: translateX(-50%); }
+
+    /* 特徴 */
+    .feature-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .feature-item a { padding: 20px 15px; }
+
+    /* ヴィラ詳細・周辺・レビュー */
+    .villa-gallery, .location-grid, .reviews-grid { grid-template-columns: 1fr; gap: 25px; }
+    .villa-gallery-item img, .location-item img { height: 240px; }
+
+    /* アメニティ */
+    .amenities-grid { grid-template-columns: 1fr; gap: 15px; } /* スマホでは1列 */
+
+    /* お知らせ */
+    .news-list li { flex-direction: column; align-items: flex-start; padding: 15px 5px; }
+    .news-date { margin-bottom: 5px; min-width: auto; margin-right: 0; }
+
+    /* フッター */
+    .footer-content { flex-direction: column; align-items: center; text-align: center; }
+    .footer-nav { flex-direction: column; gap: 15px; margin-top: 30px; width: 100%; text-align: center; }
+    .footer-social { margin-top: 30px; text-align: center; }
+    .footer-social a { margin: 0 12px; }
+}
+
